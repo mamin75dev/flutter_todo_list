@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/ui/resources/colors.dart';
 
 class ToDoAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const ToDoAppBar({super.key});
+  final List<String> items;
+  final Function(int) onPressed;
+  const ToDoAppBar({super.key, required this.items, required this.onPressed});
 
   @override
   State<ToDoAppBar> createState() => _ToDoAppBarState();
@@ -13,7 +15,6 @@ class ToDoAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _ToDoAppBarState extends State<ToDoAppBar> {
   int index = 0;
-  List<String> items = ["All ToDos", "Future ToDos", "Done ToDos"];
 
   double changePosition(double width) {
     switch (index) {
@@ -26,6 +27,25 @@ class _ToDoAppBarState extends State<ToDoAppBar> {
       default:
         return width * (0.03 + 0.01);
     }
+  }
+
+  GestureDetector tabItem(Size size, int i) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          index = i;
+        });
+        widget.onPressed(i);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: size.width * 0.3,
+        child: Text(
+          widget.items[i],
+          style: index == i ? const TextStyle(color: Colors.white, fontWeight: FontWeight.bold) : null,
+        ),
+      ),
+    );
   }
 
   @override
@@ -49,13 +69,9 @@ class _ToDoAppBarState extends State<ToDoAppBar> {
               width: size.width * 0.3,
               height: size.height * 0.068,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: [primaryColor, seconaryColor]),
+                gradient: const LinearGradient(colors: [primaryColor, secondaryColor]),
                 borderRadius: BorderRadius.circular(10),
               ),
-              // child: Text(
-              //   items[index],
-              //   style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              // ),
             ),
           ),
           Positioned(
@@ -76,51 +92,9 @@ class _ToDoAppBarState extends State<ToDoAppBar> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index = 0;
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: size.width * 0.3,
-                      child: Text(
-                        items[0],
-                        style: index == 0 ? const TextStyle(color: Colors.white, fontWeight: FontWeight.bold) : null,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index = 1;
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: size.width * 0.3,
-                      child: Text(
-                        items[1],
-                        style: index == 1 ? const TextStyle(color: Colors.white, fontWeight: FontWeight.bold) : null,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        index = 2;
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: size.width * 0.3,
-                      child: Text(
-                        items[2],
-                        style: index == 2 ? const TextStyle(color: Colors.white, fontWeight: FontWeight.bold) : null,
-                      ),
-                    ),
-                  ),
+                  tabItem(size, 0),
+                  tabItem(size, 1),
+                  tabItem(size, 2),
                 ],
               ),
             ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 const bgColor = Color(0xffF0F1F5);
-const sbgColor = Color(0xffE1E2E5);
+const sbgColor = Color.fromARGB(255, 211, 211, 211);
 const lineColor = Color.fromARGB(255, 139, 139, 139);
 
-const primaryColor = Color(0xff006933);
-const seconaryColor = Color.fromARGB(255, 0, 196, 95);
+const primaryColor = Color.fromARGB(255, 255, 111, 0);
+const secondaryColor = Color.fromARGB(194, 241, 129, 0);
